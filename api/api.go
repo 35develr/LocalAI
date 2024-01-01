@@ -27,6 +27,12 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+var (
+	modelShorteners map[string]string = map[string]string{
+		"phi-2": "github://mudler/LocalAI/examples/configurations/phi-2.yaml@master",
+	}
+)
+
 func Startup(opts ...options.AppOption) (*options.Option, *config.ConfigLoader, error) {
 	options := options.NewOptions(opts...)
 
@@ -41,6 +47,9 @@ func Startup(opts ...options.AppOption) (*options.Option, *config.ConfigLoader, 
 	modelPath := options.Loader.ModelPath
 	if len(options.ModelsURL) > 0 {
 		for _, url := range options.ModelsURL {
+			if _, ok := modelShorteners[url]; ok {
+				url = modelShorteners[url]
+			}
 			if utils.LooksLikeURL(url) {
 				// md5 of model name
 				md5Name := utils.MD5(url)
