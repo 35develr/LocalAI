@@ -289,7 +289,6 @@ func (cm *ConfigLoader) Preload(modelPath string) error {
 	log.Info().Msgf("Preloading models from %s", modelPath)
 
 	for i, config := range cm.configs {
-
 		// Download files and verify their SHA
 		for _, file := range config.DownloadFiles {
 			log.Debug().Msgf("Checking %q exists and matches SHA", file.Filename)
